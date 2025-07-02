@@ -1,4 +1,5 @@
 using UnityEngine;
+using DamageTextHelper;
 
 public class DamageTextSample2d : MonoBehaviour
 {

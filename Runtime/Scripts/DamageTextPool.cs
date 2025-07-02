@@ -2,52 +2,66 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 
-public class DamageTextPool : MonoBehaviour
+namespace DamageTextHelper
 {
-    public static DamageTextPool Instance;
-    public GameObject damageTextPrefab;
-    public int initialPoolSize = 30;
-    
-    private Queue<GameObject> pool = new Queue<GameObject>();
+    /// <summary>
+    /// 管理傷害數字的物件池。
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// 使用單例模式來管理傷害文本物件池。
+    /// 支持從池中獲取和返回傷害文本物件。
+    /// </remarks>
+    ///
+    [RequireComponent(typeof(DamageText))]
 
-    void Awake()
+    public class DamageTextPool : MonoBehaviour
     {
-        Instance = this;
-        InitializePool();
-    }
+        public static DamageTextPool Instance;
+        public GameObject damageTextPrefab;
+        public int initialPoolSize = 30;
 
-    void InitializePool()
-    {
-        for (int i = 0; i < initialPoolSize; i++)
+        private Queue<GameObject> pool = new Queue<GameObject>();
+
+        void Awake()
         {
-            CreateNewTextObject();
+            Instance = this;
+            InitializePool();
         }
-    }
 
-    GameObject CreateNewTextObject()
-    {
-        GameObject obj = Instantiate(damageTextPrefab, transform);
-        obj.SetActive(false);
-        pool.Enqueue(obj);
-        return obj;
-    }
-
-    public GameObject GetDamageText()
-    {
-        if (pool.Count == 0)
+        void InitializePool()
         {
-            CreateNewTextObject();
+            for (int i = 0; i < initialPoolSize; i++)
+            {
+                CreateNewTextObject();
+            }
         }
-        
-        GameObject obj = pool.Dequeue();
-        obj.SetActive(true);
-        return obj;
-    }
 
-    public void ReturnToPool(GameObject obj)
-    {
-        obj.SetActive(false);
-        obj.transform.SetParent(this.transform); // 可選：將物件放回池的父物件
-        pool.Enqueue(obj);
+        GameObject CreateNewTextObject()
+        {
+            GameObject obj = Instantiate(damageTextPrefab, transform);
+            obj.SetActive(false);
+            pool.Enqueue(obj);
+            return obj;
+        }
+
+        public GameObject GetDamageText()
+        {
+            if (pool.Count == 0)
+            {
+                CreateNewTextObject();
+            }
+
+            GameObject obj = pool.Dequeue();
+            obj.SetActive(true);
+            return obj;
+        }
+
+        public void ReturnToPool(GameObject obj)
+        {
+            obj.SetActive(false);
+            obj.transform.SetParent(this.transform); // 可選：將物件放回池的父物件
+            pool.Enqueue(obj);
+        }
     }
 }
