@@ -13,7 +13,6 @@ namespace DamageTextHelper
     /// 支持從池中獲取和返回傷害文本物件。
     /// </remarks>
     ///
-    [RequireComponent(typeof(DamageText))]
 
     public class DamageTextPool : MonoBehaviour
     {
