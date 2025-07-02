@@ -21,8 +21,8 @@
   },
   "samples": [
     {
-      "displayName": "Example Sample",
-      "description": "Basic usage example",
+      "displayName": "2D Damage Text Sample",
+      "description": "Basic usage example for 2D damage text",
       "path": "Samples/DamageTextSample2d"
     }
   ]
