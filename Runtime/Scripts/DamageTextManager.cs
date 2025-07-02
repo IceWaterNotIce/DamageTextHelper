@@ -28,10 +28,32 @@ namespace DamageTextHelper
 
         public void ShowDamage(int damage, Vector3 worldPosition, bool isCritical = false)
         {
+            if (DamageTextManager.Instance == null)
+            {
+                // 嘗試尋找現有的 DamageTextManager
+                var mgrObj = GameObject.FindFirstObjectByType<DamageTextManager>();
+                if (mgrObj == null)
+                {
+                    // 自動建立 DamageTextManager
+                    GameObject mgrGO = new GameObject("DamageTextManager_AutoCreated");
+                    mgrObj = mgrGO.AddComponent<DamageTextManager>();
+                    Debug.LogWarning("自動建立 DamageTextManager。");
+                }
+            }
+
             if (DamageTextPool.Instance == null)
             {
-                Debug.LogError("DamageTextPool.Instance is null! 請確認場景中有 DamageTextPool。");
-                return;
+                // 嘗試尋找現有的 DamageTextPool
+                var poolObj = GameObject.FindFirstObjectByType<DamageTextPool>();
+                if (poolObj == null)
+                {
+                    // 自動建立 DamageTextPool
+                    GameObject poolGO = new GameObject("DamageTextPool_AutoCreated");
+                    poolObj = poolGO.AddComponent<DamageTextPool>();
+                    // 你需要手動指定 damageTextPrefab
+                    // poolObj.damageTextPrefab = ...;
+                    Debug.LogWarning("自動建立 DamageTextPool，請記得指定 damageTextPrefab。");
+                }
             }
             // 獲取物件池實例
             GameObject textObj = DamageTextPool.Instance.GetDamageText();
