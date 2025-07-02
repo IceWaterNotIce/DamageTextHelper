@@ -52,6 +52,9 @@ namespace DamageTextHelper
             text.color = isCritical ? criticalColor : Color.white;
             transform.localScale = originalScale * (isCritical ? criticalScaleMultiplier : 1f);
 
+            // 重要：每次初始化時記錄當前位置
+            originalPosition = transform.position;
+
             // 初始化隨機震動偏移
             if (isCritical)
             {
